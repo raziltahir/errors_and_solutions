@@ -1,0 +1,72 @@
+Greetings.
+This is just some notes on how to troubleshoot some errors found in GROMACS and PackMol.
+Have fun! \(^,^)/
+
+ERRORS
+
+#1 
+
+Fatal error:
+number of coordinates in coordinate file (bilayer_DPPC.pdb, 17496)
+             does not match topology (topol_dppc.top, 17362)
+
+SOLUTIONS:
+
+Edit [ molecules ] in topol.top file according to the pdb input file that you use.
+If it's correct, make sure the itp file in similar to the pdb input file that you use. 
+Check the atoms in both files, they need to be exactly similar.
+
+P/s : Every single time when you see this error, recheck your topol.top file and 
+make sure the file is tally with the input file, be it pdb, gro or ect.
+
+
+
+#2
+
+  ERROR: Packmol was unable to put the molecules
+         in the desired regions even without
+         considering distance tolerances. 
+         Probably there is something wrong with
+         the constraints, since it seems that
+         the molecules cannot satisfy them at
+         at all. 
+         Please check the spatial constraints and
+         try again.
+  >The maximum number of cycles (          80 ) was achieved.
+   You may try increasing it with the nloop0 keyword, as in: nloop0 1000 
+
+SOLUTIONS:
+
+It might not be possible for Packmol to pack the molecules according to the inp input file. 
+It might be impossible for the software to put the atom at the position requested.
+
+1. The length of the lipid. 
+
+structure palmitoil.pdb 
+  number 50
+  inside box 0. 0. 0. 67.174 67.174 14.
+  atoms 31 32
+    below plane 0. 0. 1. *2.
+  end atoms
+  atoms 1 2
+    over plane 0. 0. 1. *102.
+  end atoms
+end structure 
+
+Measure again the length of the lipid structure and edit the figure that has been *-ed. You can use visualization software like Avogadro.
+
+2. Atoms selected below and over the plane.
+
+Recheck the atoms that should be at the respective positions and select the correct atoms.
+You can use visualization software like VMD and Avogadro.
+
+
+#3
+
+ERROR: The cut-off length is longer than half the shortest box vector or longer than the smallest box diagonal element. Increase the box size or   decrease rlist.
+
+SOLUTION :
+
+Use this command to increase the size of the box.
+
+gmx editconf -f bilayer_dppc -o dppc_newbox.gro -box 4.30795 4.30795 8.6159 -center 2.153975 2.153975 2.153975
