@@ -81,3 +81,59 @@ then adjust the dimension of the old pdb file
 gmx editconf -f bilayer_dppc.pdb -o dppc_newbox.gro -box <put your dimension here >
 
 example : gmx editconf -f bilayer.gro -o bilayer_newbox2.pdb -c -box   12.17603  12.17603  12.17603
+
+
+
+#4
+
+ERROR : 
+
+Fatal error:
+Atom H00 in residue GLY 1 was not found in rtp entry GLY with 9 atoms
+while sorting atoms.
+
+For a hydrogen, this can be a different protonation state, or it
+might have had a different number in the PDB file and was rebuilt
+(it might for instance have been H3, and we only expected H1 & H2).
+Note that hydrogens might have been added to the entry for the N-terminus.
+Remove this hydrogen or choose a different protonation state to solve it.
+Option -ignh will ignore all hydrogens in the input.
+
+
+Residue 'GLY1' not found in residue topology database
+
+SOLUTION :
+
+In this case, I used rtp file to add new molecules in the system. This error is probably due
+different residue name in the rtp file as compared to the pdb file. Please check and change the
+residue name according to the pdb file.
+
+
+
+#5
+
+ERROR : 
+
+bash: packmol: Permission denied
+
+Solution :
+
+make sure the 'packmol' file is in the same directory. Then, use this command to give permission for it to work
+
+chmod 555 packmol
+
+done!
+
+
+
+#6
+
+ERROR :
+
+packmol: command not found
+
+SOLUTION :
+
+Use this instead,
+
+./packmol
