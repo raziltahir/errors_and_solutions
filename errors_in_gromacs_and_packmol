@@ -67,6 +67,17 @@ ERROR: The cut-off length is longer than half the shortest box vector or longer 
 
 SOLUTION :
 
-Use this command to increase the size of the box.
+This is probably because the box is smaller than the membrane itself.
+Use this command to get the exact fit box dimension.
 
-gmx editconf -f bilayer_dppc -o dppc_newbox.gro -box 4.30795 4.30795 8.6159 -center 2.153975 2.153975 2.153975
+gmx editconf -f bilayer.gro -o bilayer_newbox.gro -c -d 0.0 -bt cubic
+
+and then check the dimension of bilayer_newbox.gro using
+
+tail bilayer_newbox.gro
+
+then adjust the dimension of the old pdb file
+
+gmx editconf -f bilayer_dppc.pdb -o dppc_newbox.gro -box <put your dimension here >
+
+example : gmx editconf -f bilayer.gro -o bilayer_newbox2.pdb -c -box   12.17603  12.17603  12.17603
